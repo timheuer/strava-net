@@ -37,7 +37,7 @@ jobs:
 
     - name: Publish NuGet package
       working-directory: ${{ env.APP_PUBLISH_PATH }}
-      run: dotnet nuget push "*.nupkg" -k ${{ secrets.GHA_STRAVA_NET }}
+      run: dotnet nuget push "*.nupkg" -s ${{ env.APP_PUBLISH_PATH }} -k ${{ secrets.GHA_STRAVA_NET }}
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
