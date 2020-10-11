@@ -1,0 +1,42 @@
+name: "Build"
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+
+env:
+  APP_PUBLISH_PATH: './published'
+  PROJECT_PATH: ./src
+  NETCORE_VERSION: '3.1.x'                    # set this to the .NET Core version to use
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET Core SDK ${{ env.NETCORE_VERSION }}
+      uses: actions/setup-dotnet@v1.5.0
+      with:
+        dotnet-version: ${{ env.NETCORE_VERSION }}
+    
+    - name: Restore packages
+      run: dotnet restore
+
+    - name: Build app
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Create package
+      run: dotnet pack -c Release -o ${{ env.APP_PUBLISH_PATH }}
+
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: nuget_package
+        path: ${{ env.APP_PUBLISH_PATH }}
