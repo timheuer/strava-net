@@ -36,7 +36,6 @@ jobs:
       run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
 
     - name: Publish NuGet package
-      working-directory: ${{ env.APP_PUBLISH_PATH }}
       run: dotnet nuget push "*.nupkg" -s ${{ env.APP_PUBLISH_PATH }} -k ${{ secrets.GHA_STRAVA_NET }}
 
     - name: Publish Artifacts
