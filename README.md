@@ -50,7 +50,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: strava_oauth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            Configuration.DefaultApiClient.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new ActivitiesApi();
             var name = name_example;  // string | The name of the activity.
@@ -77,6 +77,9 @@ namespace Example
     }
 }
 ```
+## A note on OAuth
+The [AspNet.Security.OAuth.Providers](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers) project provides implementation and guidance for how to provide an OAuth client that can perform the series of actions involved in authenticating an OAuth client.
+There's a provider for [Strava](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/tree/dev/src/AspNet.Security.OAuth.Strava) that can be used in concert with Strava's API.  
 
 <a name="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
