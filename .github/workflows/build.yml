@@ -13,6 +13,12 @@ env:
   APP_PUBLISH_PATH: './published'
   PROJECT_PATH: ./src
   NETCORE_VERSION: '3.1.x'                    # set this to the .NET Core version to use
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: false
+  DOTNET_MULTILEVEL_LOOKUP: 0
 
 jobs:
   build:
@@ -36,7 +42,7 @@ jobs:
       run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
 
     - name: Publish NuGet package
-      run: dotnet nuget push "*.nupkg" -s ${{ env.APP_PUBLISH_PATH }} -k ${{ secrets.GHA_STRAVA_NET }}
+      run: dotnet nuget push "*.nupkg" -s "${{ env.GITHUB_WORKSPACE }}/${{ env.APP_PUBLISH_PATH }}" -k ${{ secrets.GHA_STRAVA_NET }}
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
