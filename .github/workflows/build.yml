@@ -19,6 +19,7 @@ env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
   DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: false
   DOTNET_MULTILEVEL_LOOKUP: 0
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
 
 jobs:
   build:
@@ -42,7 +43,7 @@ jobs:
       run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
 
     - name: Publish NuGet package
-      run: dotnet nuget push "*.nupkg" -s ${{ env.APP_PUBLISH_PATH }} -k ${{ secrets.GHA_STRAVA_NET }}
+      run: dotnet nuget push "*.nupkg" -s "${{ github.workspace }}/${{ env.APP_PUBLISH_PATH }}" -k ${{ secrets.GHA_STRAVA_NET }}
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
