@@ -40,7 +40,7 @@ jobs:
       run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
 
     - name: Create package
-      run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
+      run: dotnet pack ${{ env.PROJECT_PATH }} -c Release -o ${{ env.APP_PUBLISH_PATH }}
 
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
