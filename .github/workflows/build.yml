@@ -42,6 +42,23 @@ jobs:
     - name: Create package
       run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
 
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+      with:
+        nuget-api-key: ${{ secrets.GHA_STRAVA_NET }}
+        nuget-version: latest
+
+    - name: Get certificate
+      id: cert_file
+      uses: timheuer/base64-to-file@master
+      with:
+          fileName: 'certfile.pfx'
+          encodedString: ${{ secrets.SIGNING_CERT }}
+
+    # Sign the package
+    - name: Sign NuGet Package
+      run: nuget sign nupkg\*.nupkg -CertificatePath ${{ steps.cert_file.outputs.filePath }} -Timestamper http://timestamp.digicert.com -NonInteractive
+
     - name: Publish NuGet package
       run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.GHA_STRAVA_NET }} -s https://api.nuget.org/v3/index.json
 
