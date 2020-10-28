@@ -57,7 +57,7 @@ jobs:
 
     # Sign the package
     - name: Sign NuGet Package
-      run: nuget sign "**/*.nupkg" -CertificatePath ${{ steps.cert_file.outputs.filePath }} -Timestamper http://timestamp.digicert.com -NonInteractive
+      run: nuget sign "**/*.nupkg" -CertificatePath ${{ steps.cert_file.outputs.filePath }} -CertificatePassword ${{ secrets.CERT_PWD }} -Timestamper http://timestamp.digicert.com -NonInteractive
 
     - name: Publish NuGet package
       run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.GHA_STRAVA_NET }} -s https://api.nuget.org/v3/index.json
