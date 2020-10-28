@@ -43,7 +43,7 @@ jobs:
       run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --include-symbols -o ${{ env.APP_PUBLISH_PATH }}
 
     - name: Publish NuGet package
-      run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.GHA_STRAVA_NET }}
+      run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.GHA_STRAVA_NET }} -s https://api.nuget.org/v3/index.json
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
