@@ -35,6 +35,12 @@ namespace Strava.NET.Client
         /// </summary>
         /// <value>The base path</value>
         public string BasePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the access token for OAuth-based communication with Strava.
+        /// </summary>
+        /// <value>The access token used during communication with Strava</value>
+        public string AccessToken { get; set; }
     
         /// <summary>
         /// Gets or sets the RestClient.
@@ -70,6 +76,8 @@ namespace Strava.NET.Client
             var request = new RestRequest(path, method);
    
             UpdateParamsForAuth(queryParams, headerParams, authSettings);
+
+            request.AddHeader("Authorization", "Bearer " + AccessToken);
 
             // add default header, if any
             foreach(var defaultHeader in _defaultHeaderMap)
